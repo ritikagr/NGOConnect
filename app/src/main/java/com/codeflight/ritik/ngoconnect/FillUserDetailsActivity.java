@@ -58,19 +58,19 @@ public class FillUserDetailsActivity extends AppCompatActivity {
                 state = et_state.getText().toString().trim();
 
                 if(email != null && name != null && mobile != null && city != null && state != null &&
-                        (f1.getText().toString().trim() != null || f2.getText().toString().trim() != null || f3.getText().toString().trim() != null || f4.getText().toString().trim() != null))
+                        (f1.isChecked() || f2.isChecked() || f3.isChecked() || f4.isChecked()))
                     {
                     List<String> fields = new ArrayList<>();
-                    if(f1.getText().toString().trim() != null)
+                    if(f1.isChecked())
                         fields.add(f1.getText().toString().trim());
 
-                    if(f2.getText().toString().trim() != null)
+                    if(f2.isChecked())
                         fields.add(f2.getText().toString().trim());
 
-                    if(f3.getText().toString().trim() != null)
+                    if(f3.isChecked())
                         fields.add(f3.getText().toString().trim());
 
-                    if(f4.getText().toString().trim() != null)
+                    if(f4.isChecked())
                         fields.add(f4.getText().toString().trim());
 
                     User user = new User(email,name,mobile,city,state,fields,user_type);
