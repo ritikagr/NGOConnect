@@ -1,54 +1,29 @@
 package com.codeflight.ritik.ngoconnect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ritik on 12/2/2017.
  */
 
 public class User {
-    private String name,mobile,city,state;
+    public String Email,Name,Mobile,City,State,Type;
+    public List<String> Category;
 
     public User()
     {
-
+        Category = new ArrayList<>();
     }
 
-    public User(String name,String mobile,String city,String state)
+    public User(String email,String name,String mobile,String city,String state,List<String> list,String type)
     {
-        this.name = name;
-        this.mobile = mobile;
-        this.city = city;
-        this.state = state;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+        this.Email = email;
+        this.Name = name;
+        this.Mobile = mobile;
+        this.City = city;
+        this.State = state;
+        this.Category = list;
+        this.Type = type;
     }
 }

@@ -12,12 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
+        android:paddingTop="@dimen/activity_horizontal_margin"
         android:background="@color/colorPrimary">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title_name"
+            android:text="Full Name"
+            android:textStyle="bold"
             android:textSize="16dp"/>
         <EditText
             android:layout_width="match_parent"
@@ -29,6 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title_mobile"
+            android:text="Mobile Number"
+            android:textStyle="bold"
             android:textSize="16dp"/>
         <EditText
             android:layout_width="match_parent"
@@ -40,6 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title_city"
+            android:text="City"
+            android:textStyle="bold"
             android:textSize="16dp"/>
         <EditText
             android:layout_width="match_parent"
@@ -51,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title_state"
+            android:text="State"
+            android:textStyle="bold"
             android:textSize="16dp"/>
         <EditText
             android:layout_width="match_parent"
@@ -63,43 +72,36 @@
             android:layout_height="wrap_content"
             android:id="@+id/title_interested_fields"
             android:textSize="16dp"
-            android:text="Select Favourite Domain"
+            android:text="Select Favourite Category"
             android:textStyle="bold"/>
 
-        <RadioGroup
-            android:layout_width="match_parent"
+        <CheckBox
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/interested_fields">
+            android:textSize="14dp"
+            android:text="Natural Disaster"
+            android:id="@+id/nd"/>
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:text="Natural Disaster"
-                android:id="@+id/nd"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="Terror Attack"
+            android:id="@+id/ta"/>
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:text="Terror Attack"
-                android:id="@+id/ta"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="Education"
+            android:id="@+id/ed"/>
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:text="Education"
-                android:id="@+id/ed"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:text="Child Welfare"
-                android:id="@+id/cw"/>
-
-        </RadioGroup>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="Child Welfare"
+            android:id="@+id/cw"/>
 
         <Button
             android:layout_width="wrap_content"

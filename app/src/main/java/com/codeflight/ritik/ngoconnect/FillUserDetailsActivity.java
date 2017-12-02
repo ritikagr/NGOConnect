@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,33 +14,36 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FillUserDetailsActivity extends AppCompatActivity {
 
-    private EditText name,mobile,city,state;
-    private RadioGroup interested_fields;
-    private RadioButton f1,f2,f3,f4;
+    private EditText et_name,et_mobile,et_city,et_state;
+    private CheckBox f1,f2,f3,f4;
     private Button btn_continue;
     private User user;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
-    private String uid;
+    private String uid,email,name,city,state,mobile,user_type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_user_details);
 
+        Intent intent = getIntent();
+        user_type = intent.getStringExtra("User_Type");
+
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        name = (EditText) findViewById(R.id.name);
-        mobile = (EditText) findViewById(R.id.mobile);
-        city = (EditText) findViewById(R.id.city);
-        state = (EditText) findViewById(R.id.state);
-        interested_fields = (RadioGroup) findViewById(R.id.interested_fields);
-        f1 = (RadioButton) findViewById(R.id.nd);
-        f2 = (RadioButton) findViewById(R.id.ta);
-        f3 = (RadioButton) findViewById(R.id.ed);
-        f4 = (RadioButton) findViewById(R.id.cw);
+        et_name = (EditText) findViewById(R.id.name);
+        et_mobile = (EditText) findViewById(R.id.mobile);
+        et_city = (EditText) findViewById(R.id.city);
+        et_state = (EditText) findViewById(R.id.state);
+
+        f1 = (CheckBox) findViewById(R.id.nd);
+        f2 = (CheckBox) findViewById(R.id.ta);
+        f3 = (CheckBox) findViewById(R.id.ed);
+        f4 = (CheckBox) findViewById(R.id.cw);
 
         btn_continue = (Button) findViewById(R.id.btn_continue);
 
@@ -49,15 +51,16 @@ public class FillUserDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 uid = auth.getCurrentUser().getUid();
-                if(name.getText().toString().trim() != null && mobile.getText().toString().trim() != null &&
-                        city.getText().toString().trim() != null && state.getText().toString().trim() != null &&
-                        (f1.getText().toString().trim() != null || f2.getText().toString().trim() != null || f3.getText().toString().trim() != null || f4.getText().toString().trim() != null)) {
-                    mDatabase.child("users").child(uid).child("Full Name").setValue(name.getText());
-                    mDatabase.child("users").child(uid).child("Mobile").setValue(mobile.getText());
-                    mDatabase.child("users").child(uid).child("City").setValue(city.getText());
-                    mDatabase.child("users").child(uid).child("State").setValue(state.getText());
+                email = auth.getCurrentUser().getEmail();
+                name = et_name.getText().toString().trim();
+                mobile = et_mobile.getText().toString().trim();
+                city = et_city.getText().toString().trim();
+                state = et_state.getText().toString().trim();
 
-                    ArrayList<String> fields = new ArrayList<>();
+                if(email != null && name != null && mobile != null && city != null && state != null &&
+                        (f1.getText().toString().trim() != null || f2.getText().toString().trim() != null || f3.getText().toString().trim() != null || f4.getText().toString().trim() != null))
+                    {
+                    List<String> fields = new ArrayList<>();
                     if(f1.getText().toString().trim() != null)
                         fields.add(f1.getText().toString().trim());
 
@@ -70,9 +73,11 @@ public class FillUserDetailsActivity extends AppCompatActivity {
                     if(f4.getText().toString().trim() != null)
                         fields.add(f4.getText().toString().trim());
 
-                    mDatabase.child("users").child(uid).child("Interested Fields").setValue(fields);
+                    User user = new User(email,name,mobile,city,state,fields,user_type);
+                    mDatabase.child("users").child(uid).setValue(user);
 
                     startActivity(new Intent(FillUserDetailsActivity.this, UserHome.class));
+                    finish();
                 }
                 else
                 {

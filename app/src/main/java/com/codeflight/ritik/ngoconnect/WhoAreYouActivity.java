@@ -59,11 +59,22 @@ public class WhoAreYouActivity extends AppCompatActivity {
                     uid = auth.getCurrentUser().getUid();
                     email = auth.getCurrentUser().getEmail();
 
-                    mDatabase.child("users").child(uid).child("email").setValue(email);
                     mDatabase.child("users").child(uid).child("type").setValue(userType);
 
-                    startActivity(new Intent(WhoAreYouActivity.this, UserHome.class));
-                    finish();
+                    if(userType == getString(R.string.individual))
+                    {
+                        Intent intent = new Intent(WhoAreYouActivity.this, FillUserDetailsActivity.class);
+                        intent.putExtra("User_Type", userType);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(WhoAreYouActivity.this, FillNGODetailsAcitvity.class);
+                        intent.putExtra("User_Type", userType);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });

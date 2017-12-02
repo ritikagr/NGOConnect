@@ -39,4 +39,5 @@
     <string name="individual">Individual User</string>
     <string name="btn_continue">Continue</string>
     <string name="title_activity_user_home">UserHome</string>
+    <string name="title_activity_ngohome">NGOHome</string>
 </resources>

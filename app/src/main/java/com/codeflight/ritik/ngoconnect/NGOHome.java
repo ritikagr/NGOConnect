@@ -3,6 +3,7 @@ package com.codeflight.ritik.ngoconnect;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,24 +26,25 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class UserHome extends AppCompatActivity
+public class NGOHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener authStateListener;
     private ArrayList<FeedItem> arrayList;
     private ListView listView;
     private CustomAdapter adapter;
-    private DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_home);
+        setContentView(R.layout.activity_ngohome);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         auth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("activities");
+        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(auth.getCurrentUser().getUid()).child("Activities");
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -51,7 +53,7 @@ public class UserHome extends AppCompatActivity
 
                 if(firebaseUser == null)
                 {
-                    startActivity(new Intent(UserHome.this, LoginActivity.class));
+                    startActivity(new Intent(NGOHome.this, LoginActivity.class));
                     finish();
                 }
             }
@@ -59,6 +61,15 @@ public class UserHome extends AppCompatActivity
 
         listView = (ListView) findViewById(R.id.list);
         arrayList = new ArrayList();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(NGOHome.this, AddActivity.class));
+                updateFeed();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -111,7 +122,7 @@ public class UserHome extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(UserHome.this, Activity_Details.class);
+                Intent intent = new Intent(NGOHome.this, Activity_Details.class);
                 FeedItem feed = (FeedItem) adapterView.getItemAtPosition(i);
                 Bundle b = new Bundle();
                 b.putParcelable("Details", feed);
@@ -134,7 +145,7 @@ public class UserHome extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.user_home, menu);
+        getMenuInflater().inflate(R.menu.ngohome, menu);
         return true;
     }
 
@@ -145,6 +156,11 @@ public class UserHome extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -154,19 +170,22 @@ public class UserHome extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.Logout) {
+        if (id == R.id.nav_camera) {
             // Handle the camera action
-            auth.signOut();
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authStateListener);
     }
 }

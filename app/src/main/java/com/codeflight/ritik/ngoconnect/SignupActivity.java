@@ -98,7 +98,7 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed.  " + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("email").setValue(email);
+                                    mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("Email").setValue(email);
                                     startActivity(new Intent(SignupActivity.this, WhoAreYouActivity.class));
                                     finish();
                                 }
