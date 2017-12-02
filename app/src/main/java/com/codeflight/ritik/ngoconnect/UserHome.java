@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ public class UserHome extends AppCompatActivity
     private ListView listView;
     private CustomAdapter adapter;
     private DatabaseReference mDatabase;
+    private ChildEventListener childEventListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,35 @@ public class UserHome extends AppCompatActivity
             }
         };
 
+        childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                FeedItem feedItem = dataSnapshot.getValue(FeedItem.class);
+                Log.d("Feed", feedItem.toString());
+                arrayList.add(feedItem);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
         listView = (ListView) findViewById(R.id.list);
         arrayList = new ArrayList();
 
@@ -68,43 +99,10 @@ public class UserHome extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        updateFeed();
     }
 
     public void updateFeed()
     {
-        arrayList.clear();
-        if(mDatabase != null)
-        {
-            mDatabase.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    FeedItem feedItem = dataSnapshot.getValue(FeedItem.class);
-                    arrayList.add(feedItem);
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
         adapter = new CustomAdapter(this,arrayList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -145,6 +143,13 @@ public class UserHome extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id == R.id.Logout) {
+            arrayList.clear();
+            mDatabase.addChildEventListener(childEventListener);
+            Log.d("TAG",arrayList.toString());
+            updateFeed();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -168,5 +173,8 @@ public class UserHome extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         auth.addAuthStateListener(authStateListener);
+        arrayList.clear();
+        mDatabase.addChildEventListener(childEventListener);
+        updateFeed();
     }
 }
