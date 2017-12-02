@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.codeflight.ritik.ngoconnect.WhoAreYouActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Who Are You?"
+            android:id="@+id/who_are_you"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/activity_horizontal_margin"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/usertype_group">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ngo"
+                android:text="@string/ngo"
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_horizontal_margin"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/individual"
+                android:text="@string/individual"
+                android:textColor="@color/white"
+                android:textSize="@dimen/activity_horizontal_margin"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@color/colorAccent"
+            android:text="@string/btn_continue"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
